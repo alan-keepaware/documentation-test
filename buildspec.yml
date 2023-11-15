@@ -10,7 +10,7 @@ phases:
       - echo "Successful build"
   post_build:
     commands:
-      - zip -r files.zip ~/flattened
+      - zip -r files.zip ./flattened
       - echo "all in flattened"; ls flattened
       - find ./flattened -type f  ! -name "*.md"  -delete
       - echo "final flattened"; ls flattened
