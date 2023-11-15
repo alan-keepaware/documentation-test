@@ -8,14 +8,14 @@ phases:
 
       # Flatten the file structure
       - mkdir flattened_files
-      - IFS=$'\n' # Set Internal Field Separator to newline
+      - IFS=$'\n' # Set Internal Field Separator to newline, or else the files might not be copied correctly
       - for FILE in $FILES; do cp $FILE flattened_files/; done
 
   post_build:
     commands:
       # Archive the .md files or prepare them for upload
       - zip -r files.zip flattened_files
-      - echo "final flattened"; ls flattened_files
+      - echo "Flattened files to upload:"; ls flattened_files
 
       # AWS S3 Upload
-      # - aws s3 cp files.zip s3://your-s3-bucket/your-prefix/
+      - aws s3 cp files.zip s3://myawsbucket123123123123123/docs/
