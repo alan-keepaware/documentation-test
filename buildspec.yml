@@ -1,9 +1,21 @@
 version: 0.2
 
 phases:
-  build:
+  install:
+    - git clone https://github.com/alan-keepaware/documentation-test.git
+  pre-build:
     commands:
+      - mkdir flattened
+      - cp -R documentation-test/. flattened/
+      - find ./flattened -type f  ! -name "*.md"  -delete
       - echo "Successful build"
+  post_build:
+    commands:
+      - zip -r files.zip ~/flattened
+      - echo "all in flattened"; ls flattened
+      - find ./flattened -type f  ! -name "*.md"  -delete
+      - echo "final flattened"; ls flattened
+      ## - aws s3 cp archive.zip s3://your-s3-bucket/your-prefix/
 artifacts:
   files:
     - '**/*'
