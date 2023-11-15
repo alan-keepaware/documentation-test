@@ -1,20 +1,21 @@
 version: 0.2
 
 phases:
-  pre_build:
+  build:
     commands:
-      - git clone https://github.com/alan-keepaware/documentation-test.git
-      - mkdir flattened
-      - cp -R documentation-test/. flattened/
-      - find ./flattened -type f  ! -name "*.md"  -delete
-      - echo "Successful build"
+      # Identify and retrieve all .md files in the repository
+      - FILES=$(find . -name "*.md")
+
+      # Flatten the file structure
+      - mkdir flattened_files
+      - IFS=$'\n' # Set Internal Field Separator to newline
+      - for FILE in $FILES; do cp $FILE flattened_files/; done
+
   post_build:
     commands:
-      - zip -r files.zip ./flattened
-      - echo "all in flattened"; ls flattened
-      - find ./flattened -type f  ! -name "*.md"  -delete
-      - echo "final flattened"; ls flattened
-      ## - aws s3 cp archive.zip s3://your-s3-bucket/your-prefix/
-artifacts:
-  files:
-    - '**/*'
+      # Archive the .md files or prepare them for upload
+      - zip -r files.zip flattened_files
+      - echo "final flattened"; ls flattened_files
+
+      # AWS S3 Upload
+      # - aws s3 cp files.zip s3://your-s3-bucket/your-prefix/
