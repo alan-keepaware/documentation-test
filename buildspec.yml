@@ -3,7 +3,12 @@ version: 0.2
 phases:
   build:
     commands:
-      # Identify and retrieve all .md files in the repository
+      - git clone https://github.com/alan-keepaware/documentation-test.git
+      # - mkdir flattened
+      # - cp -R documentation-test/. flattened/
+      # - find ./flattened -type f  ! -name "*.md"  -delete
+      # - echo "Successful build"
+
       - FILES=$(find . -name "*.md")
 
       # Flatten the file structure
@@ -14,8 +19,8 @@ phases:
   post_build:
     commands:
       # Archive the .md files or prepare them for upload
-      - zip -r files.zip flattened_files
+      # - zip -r files.zip flattened_files
       - echo "Flattened files to upload:"; ls flattened_files
 
       # AWS S3 Upload
-      - aws s3 cp files.zip s3://myawsbucket123123123123123/docs/
+      - aws s3 cp flattened_files s3://myawsbucket123123123123123/docs/
