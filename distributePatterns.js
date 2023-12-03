@@ -6,7 +6,7 @@ const jsonDir = './';
 const endpointUrl = 'http://localhost:8080/api/v1/factors/patterns/';
 const excludedFiles = ['default.pattern.json'];
 
-// Function to send a POST request
+// Function to send a POST request 
 const sendPostRequest = (url, payload) => {
     try {
         const response = execSync(`curl -s -X POST -H "Content-Type: application/json" -d '${payload}' '${url}'`, { encoding: 'utf-8' });
