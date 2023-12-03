@@ -1,8 +1,8 @@
 name: Update Documentation
-on:
-  push:
-    branches:
-      - production
+# on:
+#   push:
+#     branches:
+#       - production
 jobs:
   build:
     runs-on: ubuntu-latest
