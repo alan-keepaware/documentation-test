@@ -1,0 +1,30 @@
+name: Update Documentation
+on:
+  push:
+    branches:
+      - production
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Node Script
+        run: node distributePatterns.sh
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "alan@keepaware.co"
+          git config --local user.name "Alan Hegewisch"
+          git add .
+          git commit -m "Update documentation"
+          git push
