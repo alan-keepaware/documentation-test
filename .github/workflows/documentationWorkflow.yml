@@ -12,30 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      # # Runs a set of commands using the runners shell
-      # - name: Run a multi-line script
-      #   run: |
-      #     echo Add other actions to build,
-      #     echo test, and deploy your project.
-
-      # - name: Install Dependencies
-      #   run: npm install
-
-      # - name: Run Node Script
-      #   run: node distributePatterns.sh
-
-      # - name: Commit and Push Changes
-      #   run: |
-      #     git config --local user.email "alan@keepaware.co"
-      #     git config --local user.name "Alan Hegewisch"
-      #     git add .
-      #     git commit -m "Update documentation"
-      #     git push
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm test
