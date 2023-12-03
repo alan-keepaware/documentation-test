@@ -9,7 +9,7 @@ const excludedFiles = ['default.pattern.json'];
 // Function to send a POST request 
 const sendPostRequest = (url, payload) => {
     try {
-        const response = execSync(`curl -s -X POST -H "Content-Type: application/json" -d '${payload}' '${url}'`, { encoding: 'utf-8' });
+        const response = execSync(`curl -s -X GET google.com`, { encoding: 'utf-8' });
         return response.trim();
     } catch (error) {
         return `Error: ${error.message}`;
