@@ -18,7 +18,6 @@ const sendPostRequest = (url, payload) => {
             request,
             { encoding: 'utf-8' }
             );
-            console.log(request)
         return response.trim();
     } catch (error) {
         return `Error: ${error.message}`;
