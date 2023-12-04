@@ -25,24 +25,48 @@ const sendPostRequest = (url, payload) => {
 };
 
 
-// Loop through all JSON files in the directory and subdirectories
-const processFiles = (folderPath) => {
-    fs.readdirSync(folderPath).forEach(file => {
-        const filePath = path.join(folderPath, file);
-        const stat = fs.statSync(filePath);
+// const processFiles = (folderPath) => {
+//     fs.readdirSync(folderPath).forEach(file => {
+//         const filePath = path.join(folderPath, file);
+//         const stat = fs.statSync(filePath);
 
-        if (stat.isDirectory()) {
-            processFiles(filePath);
-        } else if (file.endsWith('.json')) {
+//         if (stat.isDirectory()) {
+//             processFiles(filePath);
+//         } else if (file.endsWith('.json')) {
+//             const fileName = file.split('.')[0];
+//             if (!excludedFiles.includes(fileName)) {
+//                 const jsonPayload = fs.readFileSync(filePath, 'utf-8');
+//                 const response = sendPostRequest(endpointUrl, jsonPayload);
+//                 console.log(`Response for ${fileName}.json: ${response}`);
+//             }
+//         }
+//     });
+// };
+
+const processFilesFromLatestCommit = (folderPath) => {
+    // Get the list of files changed in the latest commit
+    const changedFiles = execSync('git diff --name-only HEAD^ HEAD', { encoding: 'utf-8' }).split('\n');
+    let targetFiles = 0;
+
+    // Process only .json files from the latest commit
+    changedFiles.forEach(file => {
+        if (file.endsWith('.json')) {
+            const filePath = path.join(folderPath, file);
             const fileName = file.split('.')[0];
+
             if (!excludedFiles.includes(fileName)) {
                 const jsonPayload = fs.readFileSync(filePath, 'utf-8');
                 const response = sendPostRequest(endpointUrl, jsonPayload);
                 console.log(`Response for ${fileName}.json: ${response}`);
+                targetFiles++;
             }
         }
     });
+    if (targetFiles) {
+        console.log(`Finished processing ${targetFiles} JSON files!`);
+    } else {
+        console.log('No files to process.');
+    }
 };
 
-processFiles(jsonDir);
-console.log('Finished processing JSON files!');
+processFilesFromLatestCommit(jsonDir);
