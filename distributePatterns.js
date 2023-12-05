@@ -38,6 +38,7 @@ const processFilesFromLatestCommit = (folderPath) => {
             const fileName = file.split('.')[0];
 
             if (!excludedFiles.includes(fileName)) {
+                console.log('filePath', filePath)
                 const jsonPayload = fs.readFileSync(filePath, 'utf-8');
                 const response = sendPostRequest(endpointUrl, jsonPayload);
                 console.log(`Response for ${fileName}.json: ${response}`);
