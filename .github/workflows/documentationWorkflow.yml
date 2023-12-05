@@ -17,11 +17,10 @@ jobs:
       run: git diff --name-only -r HEAD^1 HEAD
       env:
         comm: git diff --name-only -r HEAD^1 HEAD
-        # commenv: ${{ git diff --name-only -r HEAD^1 HEAD }}
+        commenv: ${{ git diff --name-only -r HEAD^1 HEAD }}
     - name: Get message
       run: |
-          echo commit = $comm
-          # echo commenv = $commenv
+          echo commenv = $commenv
     - uses: actions/setup-node@v4
       with:
         node-version: 18
