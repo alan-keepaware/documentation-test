@@ -19,14 +19,14 @@ jobs:
       id: set-changes
       run: |
         # Set the commit changes as an output variable
-        echo "commit-changes=$(git diff --name-only -r HEAD^1 HEAD)" >> $C_CHANGES  
+        echo "commit-changes=$(git diff --name-only -r HEAD^1 HEAD)" >> $GITHUB_ENV  
         # Write the value to a file
         echo "${{ steps.set-changes.outputs.commit-changes }}" > commit-changes.txt
     - name: Get message
       run: |
         # Access the output variable in another step
         echo "commit = ${{ steps.set-changes.outputs.commit-changes }}"
-        echo "commit2 = ${{ C_CHANGES }}"
+        echo "commit2 = ${{ GITHUB_ENV }}"
     - uses: actions/setup-node@v4
       with:
         node-version: 18
