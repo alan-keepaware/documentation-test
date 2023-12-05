@@ -17,18 +17,9 @@ jobs:
       with:
         fetch-depth: 2
     - name: Set commit changes
-      id: set-changes
-      run: |
-        # Set the commit changes as an output variable
-        
-        # Write the value to a file
-        $(git diff --name-only -r HEAD^1 HEAD) > commit-changes.txt
-        cat commit-changes.txt
+      run: echo "GITHUB_SHA_SHORT=$(git diff --name-only -r HEAD^1 HEAD)" >> $GITHUB_ENV
     - name: Get message
-      run: |
-        # Access the output variable in another step
-        cat commit-changes.txt
-        echo "commit = ${{ steps.set-changes.outputs.commit-changes }}"
+      run: echo $GITHUB_SHA_SHORT
         
     - uses: actions/setup-node@v4
       with:
