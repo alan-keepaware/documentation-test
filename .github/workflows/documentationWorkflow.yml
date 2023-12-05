@@ -11,6 +11,10 @@ jobs:
       CONSOLE_API_KEY: ${{ secrets.CONSOLE_API_KEY }}
     steps:
     - uses: actions/checkout@v4
+      with:
+      fetch-depth: 2
+    - name: Get changes
+      run: git diff --name-only -r HEAD^1 HEAD
     - uses: actions/setup-node@v4
       with:
         node-version: 18
