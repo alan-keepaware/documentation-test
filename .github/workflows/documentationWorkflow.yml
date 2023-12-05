@@ -26,6 +26,7 @@ jobs:
     - name: Get message
       run: |
         # Access the output variable in another step
+        cat commit-changes.txt
         echo "commit = ${{ steps.set-changes.outputs.commit-changes }}"
         
     - uses: actions/setup-node@v4
