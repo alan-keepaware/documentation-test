@@ -28,8 +28,8 @@ const sendPostRequest = (url, payload) => {
 const processFilesFromLatestCommit = (folderPath) => {
     // Get the list of files changed in the latest commit
     console.log("GITHUB_SHA_SHORT", process.env.GITHUB_SHA_SHORT)
-    const changedFiles = execSync(`git diff --name-only ${commitSHA}^ ${commitSHA}`, { encoding: 'utf-8' }).split('\n');
-    let targetFiles = 0;
+    const changedFiles = execSync(process.env.GITHUB_SHA_SHORT, { encoding: 'utf-8' }).split('\n');
+    let executedFiles = 0;
 
     // Process only .json files from the latest commit
     changedFiles.forEach(file => {
@@ -41,7 +41,7 @@ const processFilesFromLatestCommit = (folderPath) => {
                 const jsonPayload = fs.readFileSync(filePath, 'utf-8');
                 const response = sendPostRequest(endpointUrl, jsonPayload);
                 console.log(`Response for ${fileName}.json: ${response}`);
-                targetFiles++;
+                executedFiles++;
             }
         }
     });
