@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONSOLE_API_KEY: ${{ secrets.CONSOLE_API_KEY }}
+      C_CHAGES: ''
     outputs:
       commit-changes: ${{ steps.set-changes.outputs.commit-changes }}
     steps:
@@ -19,14 +20,14 @@ jobs:
       id: set-changes
       run: |
         # Set the commit changes as an output variable
-        echo "commit-changes=$(git diff --name-only -r HEAD^1 HEAD)" >> $GITHUB_ENV  
+        echo "commit-changes=$(git diff --name-only -r HEAD^1 HEAD)" >> $C_CHAGES  
         # Write the value to a file
         echo "${{ steps.set-changes.outputs.commit-changes }}" > commit-changes.txt
     - name: Get message
       run: |
         # Access the output variable in another step
         echo "commit = ${{ steps.set-changes.outputs.commit-changes }}"
-        echo "commit2 = ${{ GITHUB_ENV }}"
+        echo "commit2 = ${{ C_CHAGES }}"
     - uses: actions/setup-node@v4
       with:
         node-version: 18
