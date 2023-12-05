@@ -16,7 +16,7 @@ jobs:
         fetch-depth: 2
     - name: Set commit changes
       run: |
-      changes=$(git diff --name-only -r HEAD^1 HEAD)
+        changes=$(git diff --name-only -r HEAD^1 HEAD)
         # Write changes to a file
         echo "$changes" > changed-files.txt
         # Set the file path as an output variable
