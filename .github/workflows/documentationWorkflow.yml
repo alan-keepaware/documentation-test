@@ -22,7 +22,8 @@ jobs:
         # Set the commit changes as an output variable
         
         # Write the value to a file
-        echo "${{ steps.set-changes.outputs.commit-changes }}" > commit-changes.txt
+        commit-changes=$(git diff --name-only -r HEAD^1 HEAD) > commit-changes.txt
+        cat commit-changes.txt
     - name: Get message
       run: |
         # Access the output variable in another step
