@@ -22,7 +22,7 @@ jobs:
         # Set the commit changes as an output variable
         
         # Write the value to a file
-        commit-changes=$(git diff --name-only -r HEAD^1 HEAD) > commit-changes.txt
+        $(git diff --name-only -r HEAD^1 HEAD) > commit-changes.txt
         cat commit-changes.txt
     - name: Get message
       run: |
