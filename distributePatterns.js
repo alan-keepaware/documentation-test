@@ -27,6 +27,7 @@ const sendPostRequest = (url, payload) => {
 
 const processFilesFromLatestCommit = (folderPath) => {
     // Get the list of files changed in the latest commit
+    console.log("GITHUB_SHA_SHORT", process.env.GITHUB_SHA_SHORT)
     const changedFiles = execSync(`git diff --name-only ${commitSHA}^ ${commitSHA}`, { encoding: 'utf-8' }).split('\n');
     let targetFiles = 0;
 
