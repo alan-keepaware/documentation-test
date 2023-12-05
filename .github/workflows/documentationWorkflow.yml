@@ -10,14 +10,17 @@ jobs:
     env:
       CONSOLE_API_KEY: ${{ secrets.CONSOLE_API_KEY }}
       
-    outputs:
-      commit-changes: ${{ steps.set-changes.outputs.commit-changes }}
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 2
     - name: Set commit changes
-      run: echo "GITHUB_SHA_SHORT=$(git diff --name-only -r HEAD^1 HEAD)" >> $GITHUB_ENV
+      run: |
+      changes=$(git diff --name-only -r HEAD^1 HEAD)
+        # Write changes to a file
+        echo "$changes" > changed-files.txt
+        # Set the file path as an output variable
+        echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
     - name: Get message
       run: echo $GITHUB_SHA_SHORT
         
