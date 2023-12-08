@@ -13,7 +13,6 @@ const key = 'eyJraWQiOiJUVjJna0phVVJcL2VGaUkyRjBaWDdaVktKWnVBQXM5aXBhOUlKODJvV3Z
 
 // Function to send a POST request
 const sendPostRequest = (url, payload) => {
-    console.log('ACCESS_TOKEN', ACCESS_TOKEN)
     try {
         const request = `curl -s -X POST -H "Content-Type: application/json" -H "Authorization: ${ACCESS_TOKEN}" -d '${payload}' '${url}'`;
         const response = execSync(
@@ -27,6 +26,7 @@ const sendPostRequest = (url, payload) => {
 };
 
 const processFilesFromLatestCommit = (folderPath) => {
+    console.log('ACCESS_TOKEN', ACCESS_TOKEN)
     // Get the list of files changed in the latest commit
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
     let executedFiles = 0;
