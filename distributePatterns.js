@@ -47,7 +47,7 @@ const processFilesFromLatestCommit = (folderPath) => {
         }
     });
     if (executedFiles) {
-        console.log(`Finished processing ${targetFiles} JSON files!`);
+        console.log(`Finished processing ${executedFiles} JSON files!`);
     } else {
         console.log('No files to process.');
     }
