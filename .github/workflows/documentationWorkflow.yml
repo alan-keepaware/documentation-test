@@ -42,6 +42,7 @@ jobs:
           'https://cloud.awarefilter.com/v1/oauth/token')
         echo "$response"
         access_token=$(echo "$response" | jq -r .access_token)
+        echo "$access_token"
         echo "ACCESS_TOKEN=$access_token" >> $GITHUB_ENV
 
     - uses: actions/setup-node@v4
