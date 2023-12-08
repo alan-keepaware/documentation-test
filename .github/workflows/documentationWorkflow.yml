@@ -1,0 +1,41 @@
+name: Update Documentation
+
+on:
+  push:
+    branches: [ "prod" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CONSOLE_API_KEY: ${{ secrets.CONSOLE_API_KEY }}
+      
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+    - name: Set commit changes, excluding deleted files
+      run: |
+        changes=$(git diff --name-only -r HEAD^1 HEAD)
+        deleted_files=$(git diff --diff-filter=D --name-only HEAD^1 HEAD)
+        changed_files=$(comm -23 <(echo "$changes" | sort) <(echo "$deleted_files" | sort))
+
+        # Write changes to a file
+        echo "$changed_files" > changed-files.txt
+        # Set the file path as an output variable
+        echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
+
+    - name: Log Results
+      run: echo "$CHANGED_FILES_PATH" >> distributedPatterns.log
+
+    # Logs files to be run as dis
+    - name: Upload Log File as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: distributed-patterns
+        path: distributedPatterns.log
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+    - run: node distributePatterns.js
