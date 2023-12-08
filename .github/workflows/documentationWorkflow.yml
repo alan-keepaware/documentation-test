@@ -22,9 +22,10 @@ jobs:
         # Set the file path as an output variable
         echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
     - name: Get message
-      run: echo "CHANGED_FILES_PATH=${{ steps.set-changes.outputs.CHANGED_FILES_PATH }}"
-      run: echo $CHANGED_FILES_PATH
-      run: echo $GITHUB_ENV
+      run: |
+        echo "CHANGED_FILES_PATH=${{ steps.set-changes.outputs.CHANGED_FILES_PATH }}";
+        echo $CHANGED_FILES_PATH;
+        echo $GITHUB_ENV
         
     - uses: actions/setup-node@v4
       with:
