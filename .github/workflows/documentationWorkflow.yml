@@ -40,7 +40,7 @@ jobs:
         response=$(curl -s -X POST \
           --header 'Content-Type: application/json' \
           -d '{"client_id":"7dti32o0619c5skd4i1m1d9337", "client_secret":"1a2natm3io4m30m9anl30med8ianrpmmc48cntvbmq151qnfru9u"}' \
-          'https://cloud.awarefilte/oauth/token')
+          'https://cloud.awarefilter.com/v1/oauth/token')
         echo "$response"
         # access_token=$(echo "$response" | jq -r .access_token)
         # echo "ACCESS_TOKEN=$access_token" >> $GITHUB_ENV
