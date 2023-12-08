@@ -25,15 +25,24 @@ jobs:
         # Set the file path as an output variable
         echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
 
-    - name: Log Results
-      run: echo "$CHANGED_FILES_PATH" >> distributedPatterns.log
+    # - name: Log Results
+    #   run: echo "$CHANGED_FILES_PATH" >> distributedPatterns.log
 
-    # Logs files to be run as dis
-    - name: Upload Log File as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: distributed-patterns
-        path: distributedPatterns.log
+    # # Logs files to be run as dis
+    # - name: Upload Log File as Artifact
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: distributed-patterns
+    #     path: distributedPatterns.log
+
+    - name: Get access token
+      run: |
+        response=$(curl -s -X POST \
+          --header 'Content-Type: application/json' \
+          -d '{"client_id":"7dti32o0619c5skd4i1m1d9337", "client_secret":"'"${{ secrets.CLIENT_SECRET }}"'"}' \
+          'https://cloud.awarefilte/oauth/token')
+        access_token=$(echo "$response" | jq -r .access_token)
+        echo "ACCESS_TOKEN=$access_token" >> $GITHUB_ENV
 
     - uses: actions/setup-node@v4
       with:
