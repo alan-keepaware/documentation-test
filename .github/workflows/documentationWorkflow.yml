@@ -24,13 +24,12 @@ jobs:
         echo "$changed_files" > changed-files.txt
         # Set the file path as an output variable
         echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
-        echo "CHANGED_FILES=$changed_files" >> $GITHUB_ENV
 
     - name: ChAnged Files Path
       run: echo "$CHANGED_FILES_PATH"
 
     - name: Log Results
-      run: echo "$CHANGED_FILES" >> distributedPatterns.log
+      run: echo "$CHANGED_FILES_PATH" >> distributedPatterns.log
 
     - name: Check Results
       run: cat distributedPatterns.log
