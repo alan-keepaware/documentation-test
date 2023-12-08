@@ -32,6 +32,7 @@ jobs:
     #   with:
     #     name: distributed-patterns
     #     path: distributedPatterns.log
+    #
 
     - name: Get access token
       run: |
