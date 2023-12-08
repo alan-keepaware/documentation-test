@@ -25,6 +25,9 @@ jobs:
         # Set the file path as an output variable
         echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
 
+    - name: Chsnged Results
+      run: echo "$changed_files"
+
     - name: Log Results
       run: echo "$changed_files" >> distributedPatterns.log
 
@@ -32,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: distributed-patterns
-        path: distributedPatterns.log
+        path: changed-files.txt
 
     - uses: actions/setup-node@v4
       with:
