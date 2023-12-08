@@ -35,13 +35,11 @@ jobs:
 
     - name: Get access token
       run: |
-        URL="https://cloud.awarefilter.com/v1/oauth/token"
-        clientId="7dti32o0619c5skd4i1m1d9337"
         response=$(curl -s -X POST \
           --header 'Content-Type: application/json' \
-          -d '{"client_id":"'"$clientId"'", \
+          -d '{"client_id":"7dti32o0619c5skd4i1m1d9337", \
           "client_secret":"'"${{ secrets.CONSOLE_API_KEY }}"'"}' \
-          '"'"$URL"'"')
+          'https://cloud.awarefilter.com/v1/oauth/token')
         echo "$response"
         access_token=$(echo "$response" | jq -r .access_token)
         echo "ACCESS_TOKEN=$access_token" >> $GITHUB_ENV
