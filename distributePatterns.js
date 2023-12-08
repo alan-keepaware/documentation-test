@@ -3,14 +3,15 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const jsonDir = './';
-const endpointUrl = 'https://cloud.awarefilter.com/api/v1/factors/patterns/';
+const endpointUrl = 'https://cloud.awarefilter.com/v1/api/factors/patterns/';
 const excludedFiles = ['default.pattern.json'];
 
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 // Function to send a POST request
 const sendPostRequest = (url, payload) => {
     try {
-        const request = `curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer ${ACCESS_TOKEN}' -d '${payload}' '${url}'`;
+        // const request = `curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer ${ACCESS_TOKEN}' -d '${payload}' '${url}'`;
+        const request = `curl -s -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer ${ACCESS_TOKEN}' -d '${payload}' '${url}'`;
         console.log('request', request);
         const response = execSync(
             request,
