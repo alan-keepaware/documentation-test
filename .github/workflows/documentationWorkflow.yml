@@ -17,15 +17,17 @@ jobs:
     - name: Set commit changes
       run: |
         changes=$(git diff --name-only -r HEAD^1 HEAD)
+        deleted_files=$(git diff --diff-filter=D --name-only HEAD^1 HEAD)
+        changed_files=$(comm -23 <(echo "$changed_files" | sort) <(echo "$deleted_files" | sort))
         # Write changes to a file
-        echo "$changes" > changed-files.txt
+        echo "$changed_files" > changed-files.txt
         # Set the file path as an output variable
         echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
     - name: Get message
       run: |
         echo "CHANGED_FILES_PATH=${{ steps.set-changes.outputs.CHANGED_FILES_PATH }}";
-        echo $CHANGED_FILES_PATH;
-        echo $GITHUB_ENV
+        echo "$CHANGED_FILES_PATH";
+        echo "$GITHUB_ENV"
         
     - uses: actions/setup-node@v4
       with:
