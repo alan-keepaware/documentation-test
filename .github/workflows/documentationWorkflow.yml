@@ -26,13 +26,14 @@ jobs:
         echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
 
     - name: Log Results
-        run: echo "$changed_files" >> distributedPatterns.log
+      run: echo "$changed_files" >> distributedPatterns.log
 
-      - name: Upload Log File as Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: distributed-patterns
-          path: distributedPatterns.log
+    - name: Upload Log File as Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: distributed-patterns
+        path: distributedPatterns.log
+
     - uses: actions/setup-node@v4
       with:
         node-version: 18
