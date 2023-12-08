@@ -41,8 +41,8 @@ jobs:
           -d '{"client_id":"7dti32o0619c5skd4i1m1d9337", "client_secret":"'"${{ secrets.CONSOLE_API_KEY }}"'"}' \
           'https://cloud.awarefilter.com/v1/oauth/token')
         echo "$response"
-        # access_token=$(echo "$response" | jq -r .access_token)
-        # echo "ACCESS_TOKEN=$access_token" >> $GITHUB_ENV
+        access_token=$(echo "$response" | jq -r .access_token)
+        echo "ACCESS_TOKEN=$access_token" >> $GITHUB_ENV
 
     - uses: actions/setup-node@v4
       with:
