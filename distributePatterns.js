@@ -11,6 +11,7 @@ const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 const sendPostRequest = (url, payload) => {
     try {
         const request = `curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer ${ACCESS_TOKEN}' -d '${payload}' '${url}'`;
+        console.log('request', request);
         const response = execSync(
             request,
             { encoding: 'utf-8' }
