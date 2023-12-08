@@ -27,7 +27,6 @@ const sendPostRequest = (url, payload) => {
 
 const processFilesFromLatestCommit = (folderPath) => {
     // Get the list of files changed in the latest commit
-    console.log("CHANGED_FILES_PATH", process.env.CHANGED_FILES_PATH)
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
     let executedFiles = 0;
 
@@ -38,7 +37,7 @@ const processFilesFromLatestCommit = (folderPath) => {
             const fileName = file.split('.')[0];
 
             if (!excludedFiles.includes(fileName)) {
-                console.log('filePath', filePath)
+                console.log('Distributing pattern:', filePath)
                 const jsonPayload = fs.readFileSync(filePath, 'utf-8');
                 const response = sendPostRequest(endpointUrl, jsonPayload);
                 console.log(`Response for ${fileName}.json: ${response}`);

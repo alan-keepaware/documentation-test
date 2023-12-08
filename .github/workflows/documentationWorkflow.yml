@@ -19,11 +19,15 @@ jobs:
         changes=$(git diff --name-only -r HEAD^1 HEAD)
         deleted_files=$(git diff --diff-filter=D --name-only HEAD^1 HEAD)
         changed_files=$(comm -23 <(echo "$changes" | sort) <(echo "$deleted_files" | sort))
-        echo "changed_files: $changed_files"
+
         # Write changes to a file
         echo "$changed_files" > changed-files.txt
         # Set the file path as an output variable
         echo "CHANGED_FILES_PATH=$(pwd)/changed-files.txt" >> $GITHUB_ENV
+
+        # Keep track of files changed in log
+        echo "changed_files: $changed_files"
+        echo "$changed_files" >> distributedPatterns.log
     - uses: actions/setup-node@v4
       with:
         node-version: 18
