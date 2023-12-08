@@ -28,7 +28,7 @@ const sendPostRequest = (url, payload) => {
 const processFilesFromLatestCommit = (folderPath) => {
     // Get the list of files changed in the latest commit
     console.log("CHANGED_FILES_PATH", process.env.CHANGED_FILES_PATH)
-    const changedFiles = execSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
+    const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
     let executedFiles = 0;
 
     // Process only .json files from the latest commit
