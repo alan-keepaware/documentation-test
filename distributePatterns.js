@@ -11,19 +11,14 @@ const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 const sendPostRequest = (url, payload) => {
     try {
         const request = `curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer ${ACCESS_TOKEN}' -d '${payload}' '${url}'`;
-        const response = execSync(
+        const rawResponse = execSync(
             request,
             { encoding: 'utf-8' }
             ).trim();
-            console.log('response', response)
-            const s = JSON.parse(response);
-            // response {"success":false,"error":"MISSING_OBJ"}
-            console.log('s', s)
-            console.log('s.s', s.success)
-            // success undefined
-        if (!s.success) {
-            console.error('Failed to distribute pattern', response.error);
-        }
+            const response = JSON.parse(rawResponse.trim());
+            if (!response.success) {
+                throw new Error('Failed to distribute pattern', response.error);
+            }
         return response;
     } catch (error) {
         return `Error: ${error.message}`;
@@ -51,7 +46,7 @@ const processFilesFromLatestCommit = (folderPath) => {
         }
     });
     if (executedFiles) {
-        console.log(`Finished processing ${executedFiles} JSON files!`);
+        console.log(`Finished processing ${executedFiles} JSON files.`);
     } else {
         console.log('No files to process.');
     }
