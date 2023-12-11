@@ -42,6 +42,7 @@ const processFilesFromLatestCommit = (folderPath) => {
                 console.log('Distributing pattern:', filePath)
                 const jsonPayload = fs.readFileSync(filePath, 'utf-8');
                 const response = sendPostRequest(endpointUrl, jsonPayload);
+                console.log('response', response);
                 let message;
                 if (response.success) {
                     message = `Success for ${fileName}.json: ${response}`;
