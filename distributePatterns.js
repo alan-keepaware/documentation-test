@@ -19,6 +19,8 @@ const sendPostRequest = (url, payload) => {
             console.log('s1', JSON.stringify(response, null, 2));
             console.log('s2' , JSON.stringify(response));
             console.log('success', response.success)
+            console.log('success2', response["success"])
+            console.log('success3', response[success])
         if (!response.success) {
             console.error('Failed to distribute pattern', response.error);
         }
