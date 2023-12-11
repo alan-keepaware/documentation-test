@@ -14,15 +14,18 @@ const sendPostRequest = (url, payload) => {
         const response = execSync(
             request,
             { encoding: 'utf-8' }
-            );
-        return response.trim();
+            ).trim();
+            console.log('resp success', response)
+        if (!!!response.success) {
+            console.error('Failed to distribute pattern', response.error);
+        }
+        return response;
     } catch (error) {
         return `Error: ${error.message}`;
     }
 };
 
 const processFilesFromLatestCommit = (folderPath) => {
-    console.log('ACCESS_TOKEN', ACCESS_TOKEN)
     // Get the list of files changed in the latest commit
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
     let executedFiles = 0;
