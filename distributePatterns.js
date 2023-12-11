@@ -16,13 +16,15 @@ const sendPostRequest = (url, payload) => {
             { encoding: 'utf-8' }
             ).trim();
             const response = JSON.parse(rawResponse.trim());
-            console.log('response', response);
             if (!response.success) {
                 console.error('Failed to distribute pattern', response.error)
             }
         return response;
     } catch (error) {
+<<<<<<< HEAD
         console.log('error', error)
+=======
+>>>>>>> 324953b (Test flow)
         return { error: `Error: ${error.message}`};
     }
 };
