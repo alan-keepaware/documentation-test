@@ -46,7 +46,7 @@ const updateFileWithId = (pattern, newId, filePath) => {
     }
     try {
         console.log('id', newId)
-        let newPattern = pattern;
+        let newPattern = JSON.parse(pattern);
         newPattern.id = newId;
         console.log('id now', newPattern.id)
         fs.writeFileSync(filePath, newPattern);
