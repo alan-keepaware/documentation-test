@@ -35,7 +35,7 @@ const commitChange = () => {
     execSync('git commit -m "Update pattern file with ID"');
 
     // Push changes back to the repository
-    execSync('git push');
+    // execSync('git push');
 }
 
 const updateFileWithId = (pattern, newId, filePath) => {
@@ -46,7 +46,7 @@ const updateFileWithId = (pattern, newId, filePath) => {
     }
     try {
         pattern.id = newId;
-        console.log('id', pattern.id)
+        console.log('id', pattern.id, newId)
         fs.writeFileSync(filePath, pattern);
         // TODO Remove
         commitChange(filePath);
