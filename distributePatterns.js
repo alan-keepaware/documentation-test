@@ -26,10 +26,10 @@ const sendPostRequest = (url, pattern) => {
 };
 
 const commitChange = () => {
-    execSync(`git add .`);
+    execSync('git add .');
 
     // Commit changes
-    execSync('git status"');
+    execSync('git status');
     execSync('git config user.email "alan@keepaware.com"');
     execSync('git config user.name "alan-keepaware"');
     execSync('git commit -m "Update pattern file with ID"');
@@ -51,7 +51,7 @@ const updateFileWithId = (pattern, newId, filePath) => {
         commitChange(filePath);
         console.log(`Successfully updated pattern with id ${newId}`)
     } catch(error) {
-        console.error(`Failed to update pattern with id ${error}`, error)
+        console.error(`Failed to update pattern with id`, error)
     }
 }
 
