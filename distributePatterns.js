@@ -30,8 +30,8 @@ const commitChange = () => {
 
     // Commit changes
     execSync('git status');
-    execSync('git config user.email "alan@keepaware.com"');
-    execSync('git config user.name "alan-keepaware"');
+    execSync('git config user.email "actions@github.com"');
+    execSync('git config user.name "GitHub Actions"');
     execSync('git commit -m "Update pattern file with ID"');
 
     // Push changes back to the repository
