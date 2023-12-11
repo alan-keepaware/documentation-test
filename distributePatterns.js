@@ -26,13 +26,13 @@ const sendPostRequest = async (url, payload) => {
     }
 };
 
-const processFilesFromLatestCommit = (folderPath) => {
+const processFilesFromLatestCommit = async (folderPath) => {
     // Get the list of files changed in the latest commit
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
     let executedFiles = 0;
 
     // Process only .json files from the latest commit
-    changedFiles.forEach(file => {
+    changedFiles.forEach(async file => {
         if (file.endsWith('.json')) {
             const filePath = path.join(folderPath, file);
             const fileName = file.split('.')[0];
@@ -40,7 +40,7 @@ const processFilesFromLatestCommit = (folderPath) => {
             if (!excludedFiles.includes(fileName)) {
                 console.log('Distributing pattern:', filePath)
                 const jsonPayload = fs.readFileSync(filePath, 'utf-8');
-                const response = sendPostRequest(endpointUrl, jsonPayload);
+                const response = await sendPostRequest(endpointUrl, jsonPayload);
                 console.log(`Response for ${fileName}.json: ${response}`);
                 executedFiles++;
             }
