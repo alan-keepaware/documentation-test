@@ -8,9 +8,9 @@ const excludedFiles = ['default.pattern.json'];
 
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 // Function to send a POST request
-const sendPostRequest = (url, payload) => {
+const sendPostRequest = (url, pattern) => {
     try {
-        const request = `curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer ${ACCESS_TOKEN}' -d '${payload}' '${url}'`;
+        const request = `curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer ${ACCESS_TOKEN}' -d '${pattern}' '${url}'`;
         const rawResponse = execSync(
             request,
             { encoding: 'utf-8' }
@@ -25,10 +25,59 @@ const sendPostRequest = (url, payload) => {
     }
 };
 
+const commitChange = (filePath) => {
+    execSync(`git add ${filePath}`);
+
+    // Commit changes
+    execSync('git config --global user.email "alan@keepaware.com"');
+    execSync('git config --global user.name "alan-keepaware"');
+    execSync('git commit -m "Update pattern file with ID"');
+
+    // Push changes back to the repository
+    execSync('git push');
+}
+
+const updateFileWithId = (pattern, newId, filePath) => {
+    if (pattern.id || !newId) {
+        // TODO Remove
+        console.log(`Pattern id exists ${pattern.id}`)
+        return;
+    }
+    try {
+        pattern.id = newId;
+        fs.writeFileSync(filePath, pattern);
+        // TODO Remove
+        commitChange(filePath);
+        console.log(`Successfully updated pattern with id ${newId}`)
+    } catch(error) {
+        console.error(`Failed to update pattern with id ${error}`, error)
+    }
+}
+
+const distributePattern = (filePath, fileName, results, executedFiles, failedFiles) => {
+    console.log('Distributing pattern:', filePath)
+    const pattern = fs.readFileSync(filePath, 'utf-8');
+    const response = sendPostRequest(endpointUrl, pattern);
+    // TODO Remove
+    console.log('response', response);
+    let message;
+    if (response.success) {
+        message = `Success for ${fileName}.json. patternId: ${response.results?.patternId}`;
+        updateFileWithId(pattern, response.results?.patternId, filePath);
+    } else {
+        failedFiles++;
+        message = `Error for ${fileName}.json. ${response.error}`;
+    }
+    results.push(message);
+    console.log(message);
+    executedFiles++;
+}
+
 const processFilesFromLatestCommit = (folderPath) => {
     // Get the list of files changed in the latest commit
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
     let executedFiles = 0;
+    let failedFiles = 0;
     const results = [];
 
     // Process only .json files from the latest commit
@@ -38,25 +87,16 @@ const processFilesFromLatestCommit = (folderPath) => {
             const fileName = file.split('.')[0];
 
             if (!excludedFiles.includes(fileName)) {
-                console.log('Distributing pattern:', filePath)
-                const jsonPayload = fs.readFileSync(filePath, 'utf-8');
-                const response = sendPostRequest(endpointUrl, jsonPayload);
-                console.log('response', response);
-                let message;
-                if (response.success) {
-                    message = `Success for ${fileName}.json: ${response}`;
-                } else {
-                    message = `Error for ${fileName}.json. ${response.error}`;
-                }
-                results.push(message);
-                console.log(message);
-                executedFiles++;
+                distributePattern(filePath, fileName, results, executedFiles, failedFiles)
             }
         }
     });
     if (executedFiles) {
         console.log(`Finished processing ${executedFiles} JSON files.`);
         fs.writeFileSync('distributedResults.txt', results.join('\n'));
+    } if (failedFiles) {
+        console.error(`${failedFiles} files failed to be distributed.`);
+        process.exit(1);
     } else {
         console.log('No files to process.');
     }
