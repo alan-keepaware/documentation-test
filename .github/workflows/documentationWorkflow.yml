@@ -33,6 +33,15 @@ jobs:
         access_token=$(echo "$response" | jq -r .access_token)
         echo "ACCESS_TOKEN=$access_token" >> $GITHUB_ENV
 
+    - name: Log Patterns to distribute
+      run: echo "$CHANGED_FILES_PATH" >> distributedPatterns.log
+
+    - name: Upload Log File as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: distributed-patterns
+        path: distributedPatterns.log
+
     - uses: actions/setup-node@v4
       with:
         node-version: 18
