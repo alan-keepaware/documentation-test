@@ -21,10 +21,6 @@ const sendPostRequest = (url, payload) => {
             }
         return response;
     } catch (error) {
-<<<<<<< HEAD
-        console.log('error', error)
-=======
->>>>>>> 324953b (Test flow)
         return { error: `Error: ${error.message}`};
     }
 };
