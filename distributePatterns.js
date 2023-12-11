@@ -25,12 +25,13 @@ const sendPostRequest = (url, pattern) => {
     }
 };
 
-const commitChange = (filePath) => {
-    execSync(`git add ${filePath}`);
+const commitChange = () => {
+    execSync(`git add .`);
 
     // Commit changes
-    execSync('git config --global user.email "alan@keepaware.com"');
-    execSync('git config --global user.name "alan-keepaware"');
+    execSync('git status"');
+    execSync('git config user.email "alan@keepaware.com"');
+    execSync('git config user.name "alan-keepaware"');
     execSync('git commit -m "Update pattern file with ID"');
 
     // Push changes back to the repository
