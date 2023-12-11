@@ -1,1 +1,2 @@
-pattern7.json
+distributePatterns.js
+pattern8.json
