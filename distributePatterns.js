@@ -16,12 +16,12 @@ const sendPostRequest = (url, payload) => {
             { encoding: 'utf-8' }
             ).trim();
             console.log('response', response)
-            console.log('s1', JSON.stringify(response, null, 2));
-            console.log('s2' , JSON.stringify(response));
-            console.log('success', response.success)
-            console.log('success2', response["success"])
-            console.log('success3', response[success])
-        if (!response.success) {
+            const s = JSON.parse(response);
+            // response {"success":false,"error":"MISSING_OBJ"}
+            console.log('s', s)
+            console.log('s.s', s.success)
+            // success undefined
+        if (!s.success) {
             console.error('Failed to distribute pattern', response.error);
         }
         return response;
