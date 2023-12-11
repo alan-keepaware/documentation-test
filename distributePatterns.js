@@ -45,8 +45,9 @@ const updateFileWithId = (pattern, newId, filePath) => {
         return;
     }
     try {
-        let newPattern = { ...pattern, id: newId };
-        console.log('id', newPattern)
+        let newPattern = pattern;
+        newPattern.id = newId;
+        console.log('id', newPattern.id)
         fs.writeFileSync(filePath, newPattern);
         // TODO Remove
         commitChange(filePath);
