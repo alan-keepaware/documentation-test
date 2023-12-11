@@ -18,11 +18,12 @@ const sendPostRequest = (url, payload) => {
             const response = JSON.parse(rawResponse.trim());
             console.log('response', response);
             if (!response.success) {
-                throw new Error('Failed to distribute pattern', response.error);
+                console.error('Failed to distribute pattern', response.error)
             }
         return response;
     } catch (error) {
-        return `Error: ${error.message}`;
+        console.log('error', error)
+        return { error: `Error: ${error.message}`};
     }
 };
 
@@ -47,7 +48,7 @@ const processFilesFromLatestCommit = (folderPath) => {
                 if (response.success) {
                     message = `Success for ${fileName}.json: ${response}`;
                 } else {
-                    message = `Error for ${fileName}.json: ${response.error}`;
+                    message = `Error for ${fileName}.json. ${response.error}`;
                 }
                 results.push(message);
                 console.log(message);
