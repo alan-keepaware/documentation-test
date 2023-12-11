@@ -16,6 +16,7 @@ const sendPostRequest = (url, payload) => {
             { encoding: 'utf-8' }
             ).trim();
             const response = JSON.parse(rawResponse.trim());
+            console.log('response', response);
             if (!response.success) {
                 throw new Error('Failed to distribute pattern', response.error);
             }
