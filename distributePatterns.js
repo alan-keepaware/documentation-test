@@ -29,6 +29,7 @@ const processFilesFromLatestCommit = (folderPath) => {
     // Get the list of files changed in the latest commit
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
     let executedFiles = 0;
+    const results = [];
 
     // Process only .json files from the latest commit
     changedFiles.forEach(file => {
@@ -40,13 +41,21 @@ const processFilesFromLatestCommit = (folderPath) => {
                 console.log('Distributing pattern:', filePath)
                 const jsonPayload = fs.readFileSync(filePath, 'utf-8');
                 const response = sendPostRequest(endpointUrl, jsonPayload);
-                console.log(`Response for ${fileName}.json: ${response}`);
+                let message;
+                if (response.success) {
+                    message = `Success for ${fileName}.json: ${response}`;
+                } else {
+                    message = `Error for ${fileName}.json: ${response.error}`;
+                }
+                results.push(message);
+                console.log(message);
                 executedFiles++;
             }
         }
     });
     if (executedFiles) {
         console.log(`Finished processing ${executedFiles} JSON files.`);
+        fs.writeFileSync('distributedResults.txt', results.join('\n'));
     } else {
         console.log('No files to process.');
     }
