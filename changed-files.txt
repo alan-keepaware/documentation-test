@@ -1,2 +1,2 @@
 distributePatterns.js
-pattern8.json
+pattern2.json
