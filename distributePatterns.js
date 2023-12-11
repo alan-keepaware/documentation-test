@@ -8,15 +8,16 @@ const excludedFiles = ['default.pattern.json'];
 
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 // Function to send a POST request
-const sendPostRequest = (url, payload) => {
+const sendPostRequest = async (url, payload) => {
     try {
         const request = `curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer ${ACCESS_TOKEN}' -d '${payload}' '${url}'`;
-        const response = execSync(
+        const response = await execSync(
             request,
             { encoding: 'utf-8' }
             ).trim();
-            console.log('resp success', response)
-        if (!!!response.success) {
+            console.log('response', response)
+            console.log('success', response.success)
+        if (!response.success) {
             console.error('Failed to distribute pattern', response.error);
         }
         return response;
