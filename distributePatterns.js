@@ -42,7 +42,7 @@ const updateFileWithId = (pattern, newId, filePath) => {
     try {
         let newPattern = JSON.parse(pattern);
         if (newPattern.id || !newId) {
-            console.log(`Pattern id exists ${newPattern.id}, no update.`)
+            console.log(`Pattern id exists ${newPattern.id}, no update to add the id.`)
             return;
         }
         newPattern.id = newId;
