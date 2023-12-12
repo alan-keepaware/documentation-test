@@ -50,7 +50,7 @@ const updateFileWithId = (pattern, newId, filePath) => {
         commitChange(filePath);
         console.log(`Updated pattern with id ${newId}`)
     } catch(error) {
-        console.error(`Failed to update pattern with id`, error)
+        console.error(`Failed to update pattern with id: ${newId}.\n`, error)
     }
 }
 
@@ -62,7 +62,7 @@ const distributePattern = (filePath, fileName, results) => {
     console.log('response', response);
     let message;
     if (response.success) {
-        message = `Success distributing and updating ${fileName}.json with patternId: ${response.results?.patternId}`;
+        message = `Success distributing ${fileName}.json with patternId: ${response.results?.patternId}`;
         updateFileWithId(pattern, response.results?.patternId, filePath);
     } else {
         results.failedFiles++;
