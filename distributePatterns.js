@@ -76,7 +76,7 @@ const distributePattern = (filePath, fileName, results) => {
 const processFilesFromLatestCommit = (folderPath) => {
     // Get the list of files changed in the latest commit
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
-    const results = {
+    let results = {
         modifiedFiles: [],
         executedFiles: 0,
         failedFiles: 0
