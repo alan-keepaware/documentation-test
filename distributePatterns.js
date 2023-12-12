@@ -39,6 +39,7 @@ const commitChange = () => {
 }
 
 const updateFileWithId = (pattern, newId, filePath) => {
+    console.log('pattern.id', pattern.id)
     if (pattern.id || !newId) {
         console.log(`Pattern id exists ${pattern.id}, no update.`)
         return;
@@ -76,8 +77,6 @@ const distributePattern = (filePath, fileName, results) => {
 const processFilesFromLatestCommit = (folderPath) => {
     // Get the list of files changed in the latest commit
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
-    let executedFiles = 0;
-    let failedFiles = 0;
     const results = {
         modifiedFiles: [],
         executedFiles: 0,
