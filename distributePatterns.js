@@ -49,7 +49,7 @@ const updateFileWithId = (pattern, newId, filePath) => {
         let newPattern = JSON.parse(pattern);
         newPattern.id = newId;
         console.log('id now', newPattern.id)
-        fs.writeFileSync(filePath, JSON.stringify(newPattern));
+        fs.writeFileSync(filePath, JSON.stringify(newPattern, null, 2));
         // TODO Remove
         commitChange(filePath);
         console.log(`Successfully updated pattern with id ${newId}`)
