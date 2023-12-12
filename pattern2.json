@@ -1,6 +1,6 @@
 {
   "id": "Zmg6W4wB442pcyCdapKs",
-  "name": "Data Input   to Risky Data Sharing Sites",
+  "name": "Data Input  to Risky Data Sharing Sites",
   "description": "Detects a user has input data into a risky data-sharing site, including sites like Pastebin and sites that provide \"self-destructing\" or one-time messages.",
   "type": [
     "input"

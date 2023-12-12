@@ -40,12 +40,13 @@ const commitChange = () => {
 
 const updateFileWithId = (pattern, newId, filePath) => {
     console.log('pattern.id', pattern.id)
-    if (pattern.id || !newId) {
-        console.log(`Pattern id exists ${pattern.id}, no update.`)
-        return;
-    }
+    
     try {
         let newPattern = JSON.parse(pattern);
+        if (newPattern.id || !newId) {
+            console.log(`Pattern id exists ${pattern.id}, no update.`)
+            return;
+        }
         newPattern.id = newId;
         fs.writeFileSync(filePath, JSON.stringify(newPattern, null, 2));
         commitChange(filePath);
