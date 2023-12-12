@@ -40,25 +40,21 @@ const commitChange = () => {
 
 const updateFileWithId = (pattern, newId, filePath) => {
     if (pattern.id || !newId) {
-        // TODO Remove
-        console.log(`Pattern id exists ${pattern.id}`)
+        console.log(`Pattern id exists ${pattern.id}, no update.`)
         return;
     }
     try {
-        console.log('id', newId)
         let newPattern = JSON.parse(pattern);
         newPattern.id = newId;
-        console.log('id now', newPattern.id)
         fs.writeFileSync(filePath, JSON.stringify(newPattern, null, 2));
-        // TODO Remove
         commitChange(filePath);
-        console.log(`Successfully updated pattern with id ${newId}`)
+        console.log(`Updated pattern with id ${newId}`)
     } catch(error) {
         console.error(`Failed to update pattern with id`, error)
     }
 }
 
-const distributePattern = (filePath, fileName, results, executedFiles, failedFiles) => {
+const distributePattern = (filePath, fileName, results) => {
     console.log('Distributing pattern:', filePath)
     const pattern = fs.readFileSync(filePath, 'utf-8');
     const response = sendPostRequest(endpointUrl, pattern);
@@ -66,15 +62,15 @@ const distributePattern = (filePath, fileName, results, executedFiles, failedFil
     console.log('response', response);
     let message;
     if (response.success) {
-        message = `Success for ${fileName}.json. patternId: ${response.results?.patternId}`;
+        message = `Success distributing and updating ${fileName}.json with patternId: ${response.results?.patternId}`;
         updateFileWithId(pattern, response.results?.patternId, filePath);
     } else {
-        failedFiles++;
+        results.failedFiles++;
         message = `Error for ${fileName}.json. ${response.error}`;
     }
-    results.push(message);
+    results.modifiedFiles.push(message);
     console.log(message);
-    executedFiles++;
+    results.executedFiles++;
 }
 
 const processFilesFromLatestCommit = (folderPath) => {
@@ -82,7 +78,11 @@ const processFilesFromLatestCommit = (folderPath) => {
     const changedFiles = fs.readFileSync(process.env.CHANGED_FILES_PATH, { encoding: 'utf-8' }).split('\n');
     let executedFiles = 0;
     let failedFiles = 0;
-    const results = [];
+    const results = {
+        modifiedFiles: [],
+        executedFiles: 0,
+        failedFiles: 0
+    };
 
     // Process only .json files from the latest commit
     changedFiles.forEach(file => {
@@ -91,15 +91,15 @@ const processFilesFromLatestCommit = (folderPath) => {
             const fileName = file.split('.')[0];
 
             if (!excludedFiles.includes(fileName)) {
-                distributePattern(filePath, fileName, results, executedFiles, failedFiles)
+                distributePattern(filePath, fileName, results)
             }
         }
     });
-    if (executedFiles) {
-        console.log(`Finished processing ${executedFiles} JSON files.`);
-        fs.writeFileSync('distributedResults.txt', results.join('\n'));
-    } if (failedFiles) {
-        console.error(`${failedFiles} files failed to be distributed.`);
+    if (results.executedFiles) {
+        console.log(`Finished processing ${results.executedFiles} JSON files.`);
+        fs.writeFileSync('distributedResults.txt', results.modifiedFiles.join('\n'));
+    } if (results.failedFiles) {
+        console.error(`${results.failedFiles} files failed to be distributed.`);
         process.exit(1);
     } else {
         console.log('No files to process.');
