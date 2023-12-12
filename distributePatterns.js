@@ -93,13 +93,12 @@ const processFilesFromLatestCommit = (folderPath) => {
             }
         }
     });
-    console.log('results', results)
-    if (results.executedFiles) {
-        console.log(`Finished processing ${results.executedFiles} JSON files.`);
-        fs.writeFileSync('distributedResults.txt', results.modifiedFiles.join('\n'));
-    } else if (results.failedFiles) {
+    if (results.failedFiles) {
         console.error(`${results.failedFiles} files failed to be distributed.`);
         process.exit(1);
+    } else if (results.executedFiles) {
+        console.log(`Finished processing ${results.executedFiles} JSON files.`);
+        fs.writeFileSync('distributedResults.txt', results.modifiedFiles.join('\n'));
     } else {
         console.log('No files to process.');
     }
