@@ -65,10 +65,12 @@ const distributePattern = (filePath, fileName, results) => {
     } else {
         results.failedFiles++;
         message = `Error for ${fileName}.json. ${response.error}`;
+        console.log('err counter', results.failedFiles)
     }
     results.modifiedFiles.push(message);
     console.log(message);
     results.executedFiles++;
+    return results;
 }
 
 const processFilesFromLatestCommit = (folderPath) => {
@@ -87,10 +89,11 @@ const processFilesFromLatestCommit = (folderPath) => {
             const fileName = file.split('.')[0];
 
             if (!excludedFiles.includes(fileName)) {
-                distributePattern(filePath, fileName, results)
+                results = distributePattern(filePath, fileName, results)
             }
         }
     });
+    console.log('results', results)
     if (results.executedFiles) {
         console.log(`Finished processing ${results.executedFiles} JSON files.`);
         fs.writeFileSync('distributedResults.txt', results.modifiedFiles.join('\n'));
