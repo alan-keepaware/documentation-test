@@ -1,2 +1,1 @@
-distributePatterns.js
 pattern2.json
