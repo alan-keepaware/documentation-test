@@ -1,6 +1,7 @@
 {
+  "id": null,
   "name": "Data Input to Risky Data Sharing Sites",
-  "description": "Detec ts a  u ser has input data into a risky data-sharing site, including sites like Pastebin and sites that provide \"self-destructing\" or one-time messages.",
+  "description": "Detects a user has input data into a risky data-sharing site, including sites like Pastebin and sites that provide \"self-destructing\" or one-time messages.",
   "type": [
     "input"
   ],
