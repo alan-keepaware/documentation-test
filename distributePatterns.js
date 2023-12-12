@@ -39,12 +39,10 @@ const commitChange = () => {
 }
 
 const updateFileWithId = (pattern, newId, filePath) => {
-    console.log('pattern.id', pattern.id)
-    
     try {
         let newPattern = JSON.parse(pattern);
         if (newPattern.id || !newId) {
-            console.log(`Pattern id exists ${pattern.id}, no update.`)
+            console.log(`Pattern id exists ${newPattern.id}, no update.`)
             return;
         }
         newPattern.id = newId;
@@ -60,8 +58,6 @@ const distributePattern = (filePath, fileName, results) => {
     console.log('Distributing pattern:', filePath)
     const pattern = fs.readFileSync(filePath, 'utf-8');
     const response = sendPostRequest(endpointUrl, pattern);
-    // TODO Remove
-    console.log('response', response);
     let message;
     if (response.success) {
         message = `Success distributing ${fileName}.json with patternId: ${response.results?.patternId}`;
