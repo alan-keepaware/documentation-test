@@ -98,7 +98,7 @@ const processFilesFromLatestCommit = (folderPath) => {
     if (results.executedFiles) {
         console.log(`Finished processing ${results.executedFiles} JSON files.`);
         fs.writeFileSync('distributedResults.txt', results.modifiedFiles.join('\n'));
-    } if (results.failedFiles) {
+    } else if (results.failedFiles) {
         console.error(`${results.failedFiles} files failed to be distributed.`);
         process.exit(1);
     } else {
